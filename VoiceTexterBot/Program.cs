@@ -51,7 +51,7 @@ namespace VoiceTexterBot
         {
             return new AppSettings()
             {
-                BotToken = ""
+                BotToken = "bot-secret"
             };
         }
 
