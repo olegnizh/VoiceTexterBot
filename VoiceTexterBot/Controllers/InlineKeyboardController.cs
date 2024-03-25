@@ -21,7 +21,7 @@ namespace VoiceTexterBot.Controllers
             _memoryStorage = memoryStorage;
         }
 
-        public async Task Handle(CallbackQuery? callbackQuery, CancellationToken ct)
+        public async Task Handle(CallbackQuery callbackQuery, CancellationToken ct)
         {
             if (callbackQuery?.Data == null)
                 return;

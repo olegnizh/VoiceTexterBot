@@ -15,14 +15,15 @@ namespace VoiceTexterBot.Controllers
     internal class VoiceMessageController
     {
         private readonly ITelegramBotClient _telegramClient;
-        private readonly AppSettings _appSettings;
         private readonly IFileHandler _audioFileHandler;
+        private readonly IStorage _memoryStorage;
 
-        public VoiceMessageController(ITelegramBotClient telegramBotClient, AppSettings appSettings, IFileHandler audioFileHandler)
+        public VoiceMessageController(ITelegramBotClient telegramBotClient, IFileHandler audioFileHandler, IStorage memoryStorage)
         {
             _telegramClient = telegramBotClient;
-            _appSettings = appSettings;
             _audioFileHandler = audioFileHandler;
+            _memoryStorage = memoryStorage;
+
         }
 
         public async Task Handle(Message message, CancellationToken ct)
@@ -35,6 +36,12 @@ namespace VoiceTexterBot.Controllers
             await _audioFileHandler.Download(fileId, ct);
             await _telegramClient.SendTextMessageAsync(message.Chat.Id, "Голосовое сообзщение загружено", cancellationToken: ct);
 
+            // Здесь получим язык из сессии пользователя
+            string userLanguageCode = _memoryStorage.GetSession(message.Chat.Id).LanguageCode;
+            // Запустим обработку
+            _audioFileHandler.Process(userLanguageCode);
+
+            await _telegramClient.SendTextMessageAsync(message.Chat.Id, "Голосовое сообщение конвертировано в формат .WAV", cancellationToken: ct);
         }
 
     }

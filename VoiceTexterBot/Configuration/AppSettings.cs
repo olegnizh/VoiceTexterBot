@@ -10,12 +10,12 @@ namespace VoiceTexterBot.Configuration
     {
         public string BotToken { get; set; }
 
-        // Папка загрузки аудио файлов
         public string DownloadsFolder { get; set; }
-        // Имя файла при загрузке
         public string AudioFileName { get; set; }
-        // Формат аудио при загрузке
         public string InputAudioFormat { get; set; }
+        public string OutputAudioFormat { get; set; }
+        public float InputAudioBitrate { get; set; }
+
     }
 
 }
