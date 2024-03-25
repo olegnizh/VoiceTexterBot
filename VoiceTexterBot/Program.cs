@@ -35,6 +35,9 @@ namespace VoiceTexterBot
             services.AddSingleton(BuildAppSettings());
 
             services.AddSingleton<IStorage, MemoryStorage>();
+
+            services.AddSingleton<IFileHandler, AudioFileHandler>();
+
             // Подключаем контроллеры сообщений и кнопок
             services.AddTransient<DefaultMessageController>();
             services.AddTransient<VoiceMessageController>();
@@ -51,7 +54,10 @@ namespace VoiceTexterBot
         {
             return new AppSettings()
             {
-                BotToken = "bot-secret"
+                BotToken = "bot-secret",
+                DownloadsFolder = "C:\\Temp",
+                AudioFileName = "audio",
+                InputAudioFormat = "ogg",
             };
         }
 
